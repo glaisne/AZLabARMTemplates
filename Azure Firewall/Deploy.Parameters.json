@@ -5,10 +5,10 @@
         "VNetName": {
             "value": "Test-AzFirewall-vnet"
         },
-        "FirewallSubnetName":{
+        "FirewallSubnetName": {
             "value": "FirewallSubnet"
         },
-        "WorkloadSubnetName":{
+        "WorkloadSubnetName": {
             "value": "WorkloadSubnet"
         },
         "VMName": {
@@ -23,7 +23,7 @@
         "adminPassword": {
             "value": "Password!101"
         },
-        "windowsOSVersion":{
+        "windowsOSVersion": {
             "value": "2019-Datacenter"
         }
     }

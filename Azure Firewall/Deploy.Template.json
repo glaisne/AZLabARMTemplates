@@ -183,13 +183,13 @@
             }
         },
         {
-          "type": "Microsoft.Network/publicIPAddresses",
-          "name": "[variables('publicIPAddressName')]",
-          "apiVersion": "2018-11-01",
-          "location": "[resourceGroup().location]",
-          "properties": {
-            "publicIPAllocationMethod": "Dynamic"
-          }
+            "type": "Microsoft.Network/publicIPAddresses",
+            "name": "[variables('publicIPAddressName')]",
+            "apiVersion": "2018-11-01",
+            "location": "[resourceGroup().location]",
+            "properties": {
+                "publicIPAllocationMethod": "Dynamic"
+            }
         }
     ],
     "outputs": {}
