@@ -129,7 +129,7 @@
                     "adminPassword": "[parameters('adminPassword')]",
                     "windowsConfiguration": {
                         "provisionVMAgent": false,
-                        "enableAutomaticUpdates": false,
+                        "enableAutomaticUpdates": false
                     },
                     "allowExtensionOperations": true
                 },
