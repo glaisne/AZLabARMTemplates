@@ -1,0 +1,197 @@
+{
+    "schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "VNetName": {
+            "type": "string",
+            "value": "Test-AzFirewall-vnet",
+            "metadata": {
+                "description": "Name for the virtuall network"
+            }
+        },
+        "FirewallSubnetName": {
+            "type": "string",
+            "value": "FirewallSubnet",
+            "metadata": {
+                "description": "Name for the Azure firewall"
+            }
+        },
+        "WorkloadSubnetName": {
+            "type": "string",
+            "value": "WorkloadSubnet",
+            "metadata": {
+                "description": "Name of the subnet where the workload will operate"
+            }
+        },
+        "VMName": {
+            "type": "string",
+            "value": "Server",
+            "metadata": {
+                "description": "Name for the VM"
+            }
+        },
+        "VMSize": {
+            "type": "string",
+            "defaultValue": "Standard_A2",
+            "allowedValues": [
+                "Standard_A2",
+                "Standard_B1s",
+                "Standard_B1ms",
+                "Standard_B2s",
+                "Standard_B2ms"
+            ],
+            "metadata": {
+                "description": "Size of the VM"
+            }
+        },
+        "adminUsername": {
+            "type": "string",
+            "value": "admin",
+            "metadata": {
+                "description": "Username for the server's administrator"
+            }
+        },
+        "adminPassword": {
+            "type": "securestring",
+            "value": "admin",
+            "metadata": {
+                "description": "Username for the server's administrator"
+            }
+        },
+        "windowsOSVersion": {
+            "type": "string",
+            "defaultValue": "2019-Datacenter",
+            "allowedValues": [
+                "2016-Datacenter",
+                "2016-Datacenter-Server-Core",
+                "2016-Datacenter-with-Containers",
+                "2012-R2-Datacenter",
+                "2008-R2-SP1",
+                "2012-Datacenter",
+                "2019-Datacenter",
+                "2019-Datacenter-Core",
+                "2019-Datacenter-Core-with-Containers"
+            ],
+            "metadata": {
+                "description": "The Windows version for the VM. This will pick a fully patched image of this given Windows version."
+            }
+        }
+    },
+    "variables": {
+        "nicName": "[concat(parameters('VMName'), '-nic')]",
+        "subnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('VNetName'), parameters('WorkloadSubnetName'))]",
+        "publicIPAddressName": "[concat(parameters('VMName'), '-pip')]"
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Network/virtualNetworks",
+            "apiVersion": "2016-03-30",
+            "location": "[resourceGroup().location]",
+            "name": "[parameters('VNetName')]",
+            "properties": {
+                "addressSpace": {
+                    "addressPrefixes": [
+                        "10.5.0.0/16",
+                        "10.10.0.0/16"
+                    ]
+                },
+                "subnets": [
+                    {
+                        "name": "[parameters('FirewallSubnetName')]",
+                        "properties": {
+                            "addressPrefix": "10.5.0.0/24"
+                        }
+                    },
+                    {
+                        "name": "[parameters('WorkloadSubnetName')]",
+                        "properties": {
+                            "addressPrefix": "10.10.0.0/24"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Microsoft.Compute/virtualMachines",
+            "name": "[parameters('VMName')]",
+            "apiVersion": "2019-03-01",
+            "location": "[resourceGroup().location]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/networkInterfaces/', variables('nicName'))]"
+            ],
+            "properties": {
+                "hardwareProfile": {
+                    "vmSize": "[parameters('VMSize')]"
+                },
+                "osProfile": {
+                    "computerName": "[parameters('vmName')]",
+                    "adminUsername": "[parameters('adminUsername')]",
+                    "adminPassword": "[parameters('adminPassword')]",
+                    "windowsConfiguration": {
+                        "provisionVMAgent": false,
+                        "enableAutomaticUpdates": false,
+                    },
+                    "allowExtensionOperations": true
+                },
+                "storageProfile": {
+                    "imageReference": {
+                        "publisher": "MicrosoftWindowsServer",
+                        "offer": "WindowsServer",
+                        "sku": "[parameters('windowsOSVersion')]",
+                        "version": "latest"
+                    },
+                    "osDisk": {
+                        "osType": "Windows",
+                        "name": "[concat(parameters('vmname'), '-osdisk')]",
+                        "createOption": "FromImage",
+                        "caching": "ReadWrite",
+                        "diskSizeGB": 127
+                    }
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces',variables('nicName'))]"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Network/networkInterfaces",
+            "name": "[variables('nicName')]",
+            "apiVersion": "2018-11-01",
+            "location": "[resourceGroup().location]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/publicIPAddresses/', variables('publicIPAddressName'))]",
+                "[resourceId('Microsoft.Network/virtualNetworks/', parameters('VNetName'))]"
+            ],
+            "properties": {
+                "ipConfigurations": [
+                    {
+                        "name": "ipconfig1",
+                        "properties": {
+                            "privateIPAllocationMethod": "Dynamic",
+                            "publicIPAddress": {
+                                "id": "[resourceId('Microsoft.Network/publicIPAddresses', variables('publicIPAddressName'))]"
+                            },
+                            "subnet": {
+                                "id": "[variables('subnetRef')]"
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        {
+          "type": "Microsoft.Network/publicIPAddresses",
+          "name": "[variables('publicIPAddressName')]",
+          "apiVersion": "2018-11-01",
+          "location": "[resourceGroup().location]",
+          "properties": {
+            "publicIPAllocationMethod": "Dynamic"
+          }
+        }
+    ],
+    "outputs": {}
+}

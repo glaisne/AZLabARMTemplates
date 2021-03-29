@@ -1,0 +1,27 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+
+variables:
+
+steps:
+- task: AzureResourceManagerTemplateDeployment@3
+  inputs:
+    deploymentScope: 'Resource Group'
+    azureResourceManagerConnection: 'Pay-As-You-Go(d9cd4c0d-292c-42e8-9f30-347d1f845e1b)'
+    subscriptionId: 'd9cd4c0d-292c-42e8-9f30-347d1f845e1b'
+    action: 'Create Or Update Resource Group'
+    resourceGroupName: 'Test-AzFirewallSetup'
+    location: 'East US 2'
+    templateLocation: 'Linked artifact'
+    csmFile: 'Deploy.Template.json'
+    csmParametersFile: 'Deploy.Parameters.json'
+    deploymentMode: 'Incremental'
+    deploymentOutputs: 'DeploymentOutput'
