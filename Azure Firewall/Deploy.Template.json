@@ -46,14 +46,14 @@
         },
         "adminUsername": {
             "type": "string",
-            "defaultValue": "admin",
+            "defaultValue": "Boss",
             "metadata": {
                 "description": "Username for the server's administrator"
             }
         },
         "adminPassword": {
             "type": "securestring",
-            "defaultValue": "admin",
+            "defaultValue": "Password!101",
             "metadata": {
                 "description": "Username for the server's administrator"
             }
