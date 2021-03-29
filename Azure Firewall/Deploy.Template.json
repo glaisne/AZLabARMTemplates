@@ -130,8 +130,7 @@
                     "windowsConfiguration": {
                         "provisionVMAgent": false,
                         "enableAutomaticUpdates": false
-                    },
-                    "allowExtensionOperations": true
+                    }
                 },
                 "storageProfile": {
                     "imageReference": {
