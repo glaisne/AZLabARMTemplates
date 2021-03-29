@@ -12,7 +12,7 @@
             "value": "WorkloadSubnet"
         },
         "VMName": {
-            "value": null
+            "value": "Server"
         },
         "VMSize": {
             "value": "Standard_A2"
