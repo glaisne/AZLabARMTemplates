@@ -91,21 +91,20 @@
             "properties": {
                 "addressSpace": {
                     "addressPrefixes": [
-                        "10.5.0.0/16",
-                        "10.10.0.0/16"
+                        "10.0.0.0/16"
                     ]
                 },
                 "subnets": [
                     {
                         "name": "[parameters('FirewallSubnetName')]",
                         "properties": {
-                            "addressPrefix": "10.5.0.0/24"
+                            "addressPrefix": "10.0.1.0/26"
                         }
                     },
                     {
                         "name": "[parameters('WorkloadSubnetName')]",
                         "properties": {
-                            "addressPrefix": "10.10.0.0/24"
+                            "addressPrefix": "10.0.2.0/24"
                         }
                     }
                 ]
