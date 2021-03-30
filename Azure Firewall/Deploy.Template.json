@@ -9,13 +9,6 @@
                 "description": "Name for the virtuall network"
             }
         },
-        "FirewallSubnetName": {
-            "type": "string",
-            "defaultValue": "FirewallSubnet",
-            "metadata": {
-                "description": "Name for the Azure firewall"
-            }
-        },
         "WorkloadSubnetName": {
             "type": "string",
             "defaultValue": "WorkloadSubnet",
@@ -96,7 +89,7 @@
                 },
                 "subnets": [
                     {
-                        "name": "[parameters('FirewallSubnetName')]",
+                        "name": "AzureFirewallSubnet",
                         "properties": {
                             "addressPrefix": "10.0.1.0/26"
                         }
