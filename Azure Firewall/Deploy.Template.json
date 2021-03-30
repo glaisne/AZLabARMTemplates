@@ -182,15 +182,6 @@
             "properties": {
                 "publicIPAllocationMethod": "Dynamic"
             }
-        },
-        {
-            "type": "Microsoft.Network/publicIPAddresses",
-            "name": "fw-pip",
-            "apiVersion": "2018-11-01",
-            "location": "[resourceGroup().location]",
-            "properties": {
-                "publicIPAllocationMethod": "Dynamic"
-            }
         }
     ],
     "outputs": {}
