@@ -3,22 +3,31 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "HubVNetName": {
-            "value": "VNet-hub",
+            "value": "VNet-hub"
         },
         "HubVNetSubnetName": {
-            "value": "AzureFirewallSubnet",
+            "value": "AzureFirewallSubnet"
         },
         "SpokeVNetName": {
-            "value": "VNet-Spoke",
+            "value": "VNet-Spoke"
         },
         "SpokeVNetSubnetName": {
-            "value": "SN-Workload",
+            "value": "SN-Workload"
         },
         "OnPremVNName": {
-            "value": "VNet-OnPrem",
+            "value": "VNet-OnPrem"
         },
         "OnPremVNetSubnetName": {
-            "value": "SN-Corp",
+            "value": "SN-Corp"
+        },
+        "WorkloadVMName": {
+            "value": "VM-Spoke-01"
+        },
+        "WorkloadVMAdminUsername": {
+            "value": "Frank"
+        },
+        "WorkloadVMAdminPassword": {
+            "value": "Password!101"
         }
     }
 }
