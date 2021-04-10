@@ -159,7 +159,6 @@
             "apiVersion": "2019-07-01",
             "location": "[resourceGroup().location]",
             "dependsOn": [
-                "[resourceId('Microsoft.Storage/storageAccounts', toLower(concat(parameters('WorkloadVMName'), '-sa')))]",
                 "[resourceId('Microsoft.Network/networkInterfaces', concat(parameters('WorkloadVMName'), '-nic'))]"
             ],
             "properties": {
