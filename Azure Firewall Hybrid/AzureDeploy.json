@@ -1,9 +1,116 @@
 {
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
-    "parameters": {},
+    "parameters": {
+        "HubVNetName": {
+            "type": "string",
+            "defaultValue": "VNet-hub",
+            "metadata": {
+                "description": "Name for the 'Hub' VNet."
+            }
+        },
+        "HubVNetSubnetName": {
+            "type": "string",
+            "defaultValue": "AzureFirewallSubnet",
+            "metadata": {
+                "description": "Name for the Hub VNet subnet."
+            }
+        },
+        "SpokeVNetName": {
+            "type": "string",
+            "defaultValue": "VNet-Spoke",
+            "metadata": {
+                "description": "Name for the 'Spoke' VNet."
+            }
+        },
+        "SpokeVNetSubnetName": {
+            "type": "string",
+            "defaultValue": "SN-Workload",
+            "metadata": {
+                "description": "Name for the Spoke subnet."
+            }
+        },
+        "OnPremVNName": {
+            "type": "string",
+            "defaultValue": "VNet-OnPrem",
+            "metadata": {
+                "description": "Name for the 'On-Prem' VNet."
+            }
+        },
+        "OnPremVNetSubnetName": {
+            "type": "string",
+            "defaultValue": "SN-Corp",
+            "metadata": {
+                "description": "Name for the 'On-Prem' subnet."
+            }
+        }
+    },
     "functions": [],
     "variables": {},
-    "resources": [],
+    "resources": [
+        {
+            "name": "[parameters('HubVNetName')]",
+            "type": "Microsoft.Network/virtualNetworks",
+            "apiVersion": "2019-11-01",
+            "location": "[resourceGroup().location]",
+            "properties": {
+                "addressSpace": {
+                    "addressPrefixes": [
+                        "10.5.0.0/16"
+                    ]
+                },
+                "subnets": [
+                    {
+                        "name": "[parameters('HubVNetSubnetName')]",
+                        "properties": {
+                            "addressPrefix": "10.5.0.0/26"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "name": "[parameters('SpokeVNetName')]",
+            "type": "Microsoft.Network/virtualNetworks",
+            "apiVersion": "2019-11-01",
+            "location": "[resourceGroup().location]",
+            "properties": {
+                "addressSpace": {
+                    "addressPrefixes": [
+                        "10.6.0.0/16"
+                    ]
+                },
+                "subnets": [
+                    {
+                        "name": "[parameters('SpokeVNetSubnetName')]",
+                        "properties": {
+                            "addressPrefix": "10.6.0.0/24"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "name": "[parameters('OnPremVNName')]",
+            "type": "Microsoft.Network/virtualNetworks",
+            "apiVersion": "2019-11-01",
+            "location": "[resourceGroup().location]",
+            "properties": {
+                "addressSpace": {
+                    "addressPrefixes": [
+                        "192.168.0.0/16"
+                    ]
+                },
+                "subnets": [
+                    {
+                        "name": "[parameters('OnPremVNetSubnetName')]",
+                        "properties": {
+                            "addressPrefix": "192.168.1.0/24"
+                        }
+                    }
+                ]
+            }
+        }
+    ],
     "outputs": {}
 }
