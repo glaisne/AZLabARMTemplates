@@ -60,6 +60,7 @@
         },
         "WorkloadVMAdminPassword": {
             "type": "securestring",
+            "defaultValue": "Password!101",
             "metadata": {
                 "description": "Passowrd used by the workload VM admin user."
             }
