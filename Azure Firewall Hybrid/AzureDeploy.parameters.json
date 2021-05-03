@@ -1,0 +1,33 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "HubVNetName": {
+            "value": "VNet-hub"
+        },
+        "HubVNetSubnetName": {
+            "value": "AzureFirewallSubnet"
+        },
+        "SpokeVNetName": {
+            "value": "VNet-Spoke"
+        },
+        "SpokeVNetSubnetName": {
+            "value": "SN-Workload"
+        },
+        "OnPremVNName": {
+            "value": "VNet-OnPrem"
+        },
+        "OnPremVNetSubnetName": {
+            "value": "SN-Corp"
+        },
+        "WorkloadVMName": {
+            "value": "VM-Spoke-01"
+        },
+        "WorkloadVMAdminUsername": {
+            "value": "Frank"
+        },
+        "WorkloadVMAdminPassword": {
+            "value": "Password!101"
+        }
+    }
+}
