@@ -12,7 +12,7 @@
         },
         "StorageAccountName": {
             "type": "string",
-            "defaultValue": "storageaccount90209i93i34"
+            "defaultValue": "storageaccount90209i93i"
         },
         "VM01Name": {
             "type": "string",
@@ -101,7 +101,7 @@
                         }
                     },
                     {
-                        "name": "Subnet-2",
+                        "name": "[variables('Subnet02Name')]",
                         "properties": {
                             "addressPrefix": "10.0.1.0/24"
                         }
