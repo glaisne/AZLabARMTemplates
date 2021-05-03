@@ -1,18 +1,18 @@
 {
-    "schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
         "VNetName": {
             "Type": "string",
-            "Default-Value": "myVirtualNetwork"
+            "defaultValue": "myVirtualNetwork"
         },
         "NSGName": {
             "Type": "string",
-            "Default-Value": "MyNsgPrivate"
+            "defaultValue": "MyNsgPrivate"
         },
         "StorageAccountName": {
             "type": "string",
-            "Default-Value": "storageaccount90209i93i34"
+            "defaultValue": "storageaccount90209i93i34"
         },
         "VM01Name": {
             "type": "string",
@@ -178,7 +178,7 @@
                         "name": "ipconfig1",
                         "properties": {
                             "subnet": {
-                                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('VNetName'), parameters('Subnet01Name'))]"
+                                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('VNetName'), variables('Subnet01Name'))]"
                             },
                             "privateIPAllocationMethod": "Dynamic"
                         }
@@ -258,7 +258,7 @@
             "type": "Microsoft.Storage/storageAccounts",
             "apiVersion": "2015-06-15",
             "location": "[resourceGroup().location]",
-            "name": "[lowercase(parameters('StorageAccountName'))]",
+            "name": "[parameters('StorageAccountName')]",
             "properties": {
                 "accountType": "Standard_LRS"
             }

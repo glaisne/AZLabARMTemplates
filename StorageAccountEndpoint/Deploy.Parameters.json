@@ -1,0 +1,33 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "VNetName": {
+            "value": "myVirtualNetwork"
+        },
+        "NSGName": {
+            "Value": "MyNsgPrivate"
+        },
+        "StorageAccountName": {
+            "Value": "storageaccount90209i93i34"
+        },
+        "VM01Name": {
+            "Value": "Server01"
+        },
+        "VM02Name": {
+            "Value": "Server02"
+        },
+        "VMSize": {
+            "Value": "Standard_A2"
+        },
+        "adminUsername": {
+            "Value": "Boss"
+        },
+        "adminPassword": {
+            "Value": "Password!101"
+        },
+        "windowsOSVersion": {
+            "Value": "2019-Datacenter"
+        }
+    }
+}
