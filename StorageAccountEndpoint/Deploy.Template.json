@@ -4,15 +4,24 @@
     "parameters": {
         "VNetName": {
             "Type": "string",
-            "defaultValue": "myVirtualNetwork"
+            "defaultValue": "myVirtualNetwork",
+            "metadata": {
+                "description": "Name of the virtual network"
+            }
         },
         "NSGName": {
             "Type": "string",
-            "defaultValue": "MyNsgPrivate"
+            "defaultValue": "MyNsgPrivate",
+            "metadata": {
+                "description": "Name of the Network Security Group"
+            }
         },
         "StorageAccountName": {
             "type": "string",
-            "defaultValue": "storageaccount90209i93i"
+            "defaultValue": "storageaccount90209i93i",
+            "metadata": {
+                "description": "Name of the Storage Account"
+            }
         },
         "VM01Name": {
             "type": "string",
