@@ -11,11 +11,11 @@
         "StorageAccountName": {
             "value": "storageaccount90209i93i"
         },
-        "VM01Name": {
-            "value": "Server01"
+        "VMPublicName": {
+            "value": "myVmPublic"
         },
-        "VM02Name": {
-            "value": "Server02"
+        "VMPrivateName": {
+            "value": "myVmPrivate"
         },
         "VMSize": {
             "value": "Standard_A2"

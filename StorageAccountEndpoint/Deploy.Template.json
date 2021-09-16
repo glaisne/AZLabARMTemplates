@@ -23,16 +23,16 @@
                 "description": "Name of the Storage Account"
             }
         },
-        "VM01Name": {
+        "VMPublicName": {
             "type": "string",
-            "defaultValue": "Server01",
+            "defaultValue": "myVmPublic",
             "metadata": {
                 "description": "Name for the first VM"
             }
         },
-        "VM02Name": {
+        "VMPrivateName": {
             "type": "string",
-            "defaultValue": "Server02",
+            "defaultValue": "myVmPrivate",
             "metadata": {
                 "description": "Name for the first VM"
             }
@@ -82,11 +82,25 @@
             "metadata": {
                 "description": "The Windows version for the VM. This will pick a fully patched image of this given Windows version."
             }
+        },
+        "VMPublicNicNSGName": {
+            "type": "string",
+            "defaultValue": "myVMPublic-nsg",
+            "metadata": {
+                "description": "Name of the Network Security Group attached to the 'Public' VM's Network Inteface Card (NIC)."
+            }
+        },
+        "VMPrivateNicNSGName": {
+            "type": "string",
+            "defaultValue": "myVMPrivate-nsg",
+            "metadata": {
+                "description": "Name of the Network Security Group attached to the 'Private' VM's Network Inteface Card (NIC)."
+            }
         }
     },
     "variables": {
-        "VM01NicName": "[concat(parameters('VM01Name'), '-nic')]",
-        "VM02NicName": "[concat(parameters('VM02Name'), '-nic')]",
+        "VMPublicNicName": "[concat(parameters('VMPublicName'), '-nic')]",
+        "VMPrivateNicName": "[concat(parameters('VMPrivateName'), '-nic')]",
         "Subnet01Name": "public",
         "Subnet02Name": "private"
     },
@@ -129,18 +143,19 @@
         },
         {
             "type": "Microsoft.Compute/virtualMachines",
-            "name": "[parameters('VM01Name')]",
+            "name": "[parameters('VMPublicName')]",
             "apiVersion": "2019-03-01",
             "location": "[resourceGroup().location]",
             "dependsOn": [
-                "[resourceId('Microsoft.Network/networkInterfaces/', variables('VM01NicName'))]"
+                "[resourceId('Microsoft.Network/networkInterfaces/', variables('VMPublicNicName'))]",
+                "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('VMPublicNicNSGName'))]"
             ],
             "properties": {
                 "hardwareProfile": {
                     "vmSize": "[parameters('VMSize')]"
                 },
                 "osProfile": {
-                    "computerName": "[parameters('VM01Name')]",
+                    "computerName": "[parameters('VMPublicName')]",
                     "adminUsername": "[parameters('adminUsername')]",
                     "adminPassword": "[parameters('adminPassword')]",
                     "windowsConfiguration": {
@@ -157,7 +172,7 @@
                     },
                     "osDisk": {
                         "osType": "Windows",
-                        "name": "[concat(parameters('VM01Name'), '-osdisk')]",
+                        "name": "[concat(parameters('VMPublicName'), '-osdisk')]",
                         "createOption": "FromImage",
                         "caching": "ReadWrite",
                         "diskSizeGB": 127
@@ -166,7 +181,7 @@
                 "networkProfile": {
                     "networkInterfaces": [
                         {
-                            "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('VM01NicName') )]"
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('VMPublicNicName') )]"
                         }
                     ]
                 }
@@ -176,11 +191,15 @@
             "type": "Microsoft.Network/networkInterfaces",
             "apiVersion": "2016-03-30",
             "location": "[resourceGroup().location]",
-            "name": "[variables('VM01NicName')]",
+            "name": "[variables('VMPublicNicName')]",
             "dependsOn": [
-                "[resourceId('Microsoft.Network/virtualNetworks/', parameters('VNetName'))]"
+                "[resourceId('Microsoft.Network/virtualNetworks/', parameters('VNetName'))]",
+                "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('VMPublicNicNSGName'))]"
             ],
             "properties": {
+                "networkSecurityGroup": {
+                    "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('VMPublicNicNSGName'))]"
+                },
                 "enableIPForwarding": false,
                 "ipConfigurations": [
                     {
@@ -197,18 +216,19 @@
         },
         {
             "type": "Microsoft.Compute/virtualMachines",
-            "name": "[parameters('VM02Name')]",
+            "name": "[parameters('VMPrivateName')]",
             "apiVersion": "2019-03-01",
             "location": "[resourceGroup().location]",
             "dependsOn": [
-                "[resourceId('Microsoft.Network/networkInterfaces/', variables('VM02NicName'))]"
+                "[resourceId('Microsoft.Network/networkInterfaces/', variables('VMPrivateNicName'))]",
+                "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('VMPrivateNicNSGName'))]"
             ],
             "properties": {
                 "hardwareProfile": {
                     "vmSize": "[parameters('VMSize')]"
                 },
                 "osProfile": {
-                    "computerName": "[parameters('VM02Name')]",
+                    "computerName": "[parameters('VMPrivateName')]",
                     "adminUsername": "[parameters('adminUsername')]",
                     "adminPassword": "[parameters('adminPassword')]",
                     "windowsConfiguration": {
@@ -225,7 +245,7 @@
                     },
                     "osDisk": {
                         "osType": "Windows",
-                        "name": "[concat(parameters('VM02Name'), '-osdisk')]",
+                        "name": "[concat(parameters('VMPrivateName'), '-osdisk')]",
                         "createOption": "FromImage",
                         "caching": "ReadWrite",
                         "diskSizeGB": 127
@@ -234,7 +254,7 @@
                 "networkProfile": {
                     "networkInterfaces": [
                         {
-                            "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('VM02NicName') )]"
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('VMPrivateNicName') )]"
                         }
                     ]
                 }
@@ -244,11 +264,15 @@
             "type": "Microsoft.Network/networkInterfaces",
             "apiVersion": "2016-03-30",
             "location": "[resourceGroup().location]",
-            "name": "[variables('VM02NicName')]",
+            "name": "[variables('VMPrivateNicName')]",
             "dependsOn": [
-                "[resourceId('Microsoft.Network/virtualNetworks/', parameters('VNetName'))]"
+                "[resourceId('Microsoft.Network/virtualNetworks/', parameters('VNetName'))]",
+                "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('VMPrivateNicNSGName'))]"
             ],
             "properties": {
+                "networkSecurityGroup": {
+                    "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('VMPrivateNicNSGName'))]"
+                },
                 "enableIPForwarding": false,
                 "ipConfigurations": [
                     {
@@ -270,6 +294,54 @@
             "name": "[parameters('StorageAccountName')]",
             "properties": {
                 "accountType": "Standard_LRS"
+            }
+        },
+        {
+            "name": "[parameters('VMPublicNicNSGName')]",
+            "type": "Microsoft.Network/networkSecurityGroups",
+            "apiVersion": "2019-11-01",
+            "location": "[resourceGroup().location]",
+            "properties": {
+                "securityRules": [
+                    {
+                        "name": "Allow-RDP",
+                        "properties": {
+                            "description": "Allow RDP from *",
+                            "protocol": "Tcp",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "3389",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 100,
+                            "direction": "Inbound"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "name": "[parameters('VMPrivateNicNSGName')]",
+            "type": "Microsoft.Network/networkSecurityGroups",
+            "apiVersion": "2019-11-01",
+            "location": "[resourceGroup().location]",
+            "properties": {
+                "securityRules": [
+                    {
+                        "name": "Deny-All-Inbound",
+                        "properties": {
+                            "description": "Deny All Inbound",
+                            "protocol": "*",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "*",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Deny",
+                            "priority": 100,
+                            "direction": "Inbound"
+                        }
+                    }
+                ]
             }
         }
     ],
