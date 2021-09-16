@@ -1,0 +1,357 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+  "parameters": {
+        "adminUsername": {
+            "type": "string",
+            "defaultValue": "Boss",
+            "metadata": {
+                "description": "Username for the server's administrator"
+            }
+        },
+        "adminPassword": {
+            "type": "securestring",
+            "defaultValue": "Password!101",
+            "metadata": {
+                "description": "Username for the server's administrator"
+            }
+        }
+   },
+  "variables": { },
+  "resources": [
+      {
+          "name": "VNet-A",
+          "type": "Microsoft.Network/virtualNetworks",
+          "apiVersion": "2019-11-01",
+          "location": "[resourceGroup().location]",
+          "tags": {
+              "displayName": "VNet-A"
+          },
+          "properties": {
+              "addressSpace": {
+                  "addressPrefixes": [
+                      "10.0.0.0/16"
+                  ]
+              },
+              "subnets": [
+                  {
+                      "name": "Subnet-A1",
+                      "properties": {
+                          "addressPrefix": "10.0.0.0/24"
+                      }
+                  }
+              ]
+          }
+      },
+      {
+          "name": "VNet-B",
+          "type": "Microsoft.Network/virtualNetworks",
+          "apiVersion": "2019-11-01",
+          "location": "[resourceGroup().location]",
+          "tags": {
+              "displayName": "VNet-B"
+          },
+          "properties": {
+              "addressSpace": {
+                  "addressPrefixes": [
+                      "10.1.0.0/16"
+                  ]
+              },
+              "subnets": [
+                  {
+                      "name": "Subnet-B1",
+                      "properties": {
+                          "addressPrefix": "10.1.0.0/24"
+                      }
+                  }
+              ]
+          }
+      },
+      {
+          "name": "VNet-C",
+          "type": "Microsoft.Network/virtualNetworks",
+          "apiVersion": "2018-08-01",
+          "location": "[resourceGroup().location]",
+          "tags": {
+              "displayName": "VNet-C"
+          },
+          "properties": {
+              "addressSpace": {
+                  "addressPrefixes": [
+                      "10.2.0.0/16"
+                  ]
+              },
+              "subnets": [
+                  {
+                      "name": "Subnet-C1",
+                      "properties": {
+                          "addressPrefix": "10.2.0.0/24"
+                      }
+                  }
+              ]
+          }
+      },
+      {
+          "name": "VMA1-PublicIP",
+          "type": "Microsoft.Network/publicIPAddresses",
+          "apiVersion": "2018-08-01",
+          "location": "[resourceGroup().location]",
+          "tags": {
+              "displayName": "PublicIPAddress"
+          },
+          "properties": {
+              "publicIPAllocationMethod": "Dynamic",
+              "dnsSettings": {
+                  "domainNameLabel": "[toLower('VMA1')]"
+              }
+          }
+      },
+      {
+          "name": "VMA1-NetworkInterface",
+          "type": "Microsoft.Network/networkInterfaces",
+          "apiVersion": "2018-08-01",
+          "location": "[resourceGroup().location]",
+          "dependsOn": [
+              "[resourceId('Microsoft.Network/publicIPAddresses', 'VMA1-PublicIP')]",
+              "[resourceId('Microsoft.Network/virtualNetworks', 'VNet-A')]"
+          ],
+          "tags": {
+              "displayName": "VMA1 Network Interface"
+          },
+          "properties": {
+              "ipConfigurations": [
+                  {
+                      "name": "ipConfig1",
+                      "properties": {
+                          "privateIPAllocationMethod": "Dynamic",
+                          "publicIPAddress": {
+                              "id": "[resourceId('Microsoft.Network/publicIPAddresses', 'VMA1-PublicIP')]"
+                          },
+                          "subnet": {
+                              "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', 'VNet-A', 'VMA1-VirtualNetwork-Subnet')]"
+                          }
+                      }
+                  }
+              ]
+          }
+      },
+      {
+          "name": "VMA1",
+          "type": "Microsoft.Compute/virtualMachines",
+          "apiVersion": "2017-03-30",
+          "location": "[resourceGroup().location]",
+          "dependsOn": [
+              "[resourceId('Microsoft.Network/networkInterfaces', 'VMA1-NetworkInterface')]"
+          ],
+          "tags": {
+              "displayName": "VMA1"
+          },
+          "properties": {
+              "hardwareProfile": {
+                  "vmSize": "Standard_A2"
+              },
+              "osProfile": {
+                  "computerName": "VMA1",
+                  "adminUsername": "[parameters('adminUsername')]",
+                  "adminPassword": "[parameters('adminPassword')]"
+              },
+              "storageProfile": {
+                  "imageReference": {
+                      "publisher": "MicrosoftWindowsServer",
+                      "offer": "WindowsServer",
+                      "sku": "2019-Datacenter",
+                      "version": "latest"
+                  },
+                  "osDisk": {
+                      "name": "VMA1OSDisk",
+                      "caching": "ReadWrite",
+                      "createOption": "FromImage"
+                  }
+              },
+              "networkProfile": {
+                  "networkInterfaces": [
+                      {
+                          "id": "[resourceId('Microsoft.Network/networkInterfaces', 'VMA1-NetworkInterface')]"
+                      }
+                  ]
+              }
+          },
+          "resources": [ ]
+      },
+      {
+          "name": "VM-B1-PublicIP",
+          "type": "Microsoft.Network/publicIPAddresses",
+          "apiVersion": "2018-08-01",
+          "location": "[resourceGroup().location]",
+          "tags": {
+              "displayName": "PublicIPAddress"
+          },
+          "properties": {
+              "publicIPAllocationMethod": "Dynamic",
+              "dnsSettings": {
+                  "domainNameLabel": "[toLower('VM-B1')]"
+              }
+          }
+      },
+      {
+          "name": "VM-B1-NetworkInterface",
+          "type": "Microsoft.Network/networkInterfaces",
+          "apiVersion": "2018-08-01",
+          "location": "[resourceGroup().location]",
+          "dependsOn": [
+              "[resourceId('Microsoft.Network/publicIPAddresses', 'VM-B1-PublicIP')]",
+              "[resourceId('Microsoft.Network/virtualNetworks', 'VNet-B')]"
+          ],
+          "tags": {
+              "displayName": "VM-B1 Network Interface"
+          },
+          "properties": {
+              "ipConfigurations": [
+                  {
+                      "name": "ipConfig1",
+                      "properties": {
+                          "privateIPAllocationMethod": "Dynamic",
+                          "publicIPAddress": {
+                              "id": "[resourceId('Microsoft.Network/publicIPAddresses', 'VM-B1-PublicIP')]"
+                          },
+                          "subnet": {
+                              "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', 'VNet-B', 'Subnet-B1')]"
+                          }
+                      }
+                  }
+              ]
+          }
+      },
+      {
+          "name": "VM-B1",
+          "type": "Microsoft.Compute/virtualMachines",
+          "apiVersion": "2017-03-30",
+          "location": "[resourceGroup().location]",
+          "dependsOn": [
+              "[resourceId('Microsoft.Network/networkInterfaces', 'VM-B1-NetworkInterface')]"
+          ],
+          "tags": {
+              "displayName": "VM-B1"
+          },
+          "properties": {
+              "hardwareProfile": {
+                  "vmSize": "Standard_A2"
+              },
+              "osProfile": {
+                  "computerName": "VM-B1",
+                  "adminUsername": "[parameters('adminUsername')]",
+                  "adminPassword": "[parameters('adminPassword')]"
+              },
+              "storageProfile": {
+                  "imageReference": {
+                      "publisher": "MicrosoftWindowsServer",
+                      "offer": "WindowsServer",
+                      "sku": "2019-Datacenter",
+                      "version": "latest"
+                  },
+                  "osDisk": {
+                      "name": "VM-B1OSDisk",
+                      "caching": "ReadWrite",
+                      "createOption": "FromImage"
+                  }
+              },
+              "networkProfile": {
+                  "networkInterfaces": [
+                      {
+                          "id": "[resourceId('Microsoft.Network/networkInterfaces', 'VM-B1-NetworkInterface')]"
+                      }
+                  ]
+              }
+          },
+          "resources": [ ]
+      },
+      {
+          "name": "VM-C1-PublicIP",
+          "type": "Microsoft.Network/publicIPAddresses",
+          "apiVersion": "2018-08-01",
+          "location": "[resourceGroup().location]",
+          "tags": {
+              "displayName": "PublicIPAddress"
+          },
+          "properties": {
+              "publicIPAllocationMethod": "Dynamic",
+              "dnsSettings": {
+                  "domainNameLabel": "[toLower('VM-C1')]"
+              }
+          }
+      },
+      {
+          "name": "VM-C1-NetworkInterface",
+          "type": "Microsoft.Network/networkInterfaces",
+          "apiVersion": "2018-08-01",
+          "location": "[resourceGroup().location]",
+          "dependsOn": [
+              "[resourceId('Microsoft.Network/publicIPAddresses', 'VM-C1-PublicIP')]",
+              "[resourceId('Microsoft.Network/virtualNetworks', 'VNet-C')]"
+          ],
+          "tags": {
+              "displayName": "VM-C1 Network Interface"
+          },
+          "properties": {
+              "ipConfigurations": [
+                  {
+                      "name": "ipConfig1",
+                      "properties": {
+                          "privateIPAllocationMethod": "Dynamic",
+                          "publicIPAddress": {
+                              "id": "[resourceId('Microsoft.Network/publicIPAddresses', 'VM-C1-PublicIP')]"
+                          },
+                          "subnet": {
+                              "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', 'VNet-C', 'Subnet-C1')]"
+                          }
+                      }
+                  }
+              ]
+          }
+      },
+      {
+          "name": "VM-C1",
+          "type": "Microsoft.Compute/virtualMachines",
+          "apiVersion": "2017-03-30",
+          "location": "[resourceGroup().location]",
+          "dependsOn": [
+              "[resourceId('Microsoft.Network/networkInterfaces', 'VM-C1-NetworkInterface')]"
+          ],
+          "tags": {
+              "displayName": "VM-C1"
+          },
+          "properties": {
+              "hardwareProfile": {
+                  "vmSize": "Standard_A2"
+              },
+              "osProfile": {
+                  "computerName": "VM-C1",
+                  "adminUsername": "[parameters('adminUsername')]",
+                  "adminPassword": "[parameters('adminPassword')]"
+              },
+              "storageProfile": {
+                  "imageReference": {
+                      "publisher": "MicrosoftWindowsServer",
+                      "offer": "WindowsServer",
+                      "sku": "2019-Datacenter",
+                      "version": "latest"
+                  },
+                  "osDisk": {
+                      "name": "VM-C1OSDisk",
+                      "caching": "ReadWrite",
+                      "createOption": "FromImage"
+                  }
+              },
+              "networkProfile": {
+                  "networkInterfaces": [
+                      {
+                          "id": "[resourceId('Microsoft.Network/networkInterfaces', 'VM-C1-NetworkInterface')]"
+                      }
+                  ]
+              }
+          },
+          "resources": [ ]
+      }
+   ],
+  "outputs": { }
+}
