@@ -128,7 +128,7 @@
                               "id": "[resourceId('Microsoft.Network/publicIPAddresses', 'VMA1-PublicIP')]"
                           },
                           "subnet": {
-                              "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', 'VNet-A', 'VMA1-VirtualNetwork-Subnet')]"
+                              "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', 'VNet-A', 'Subnet-A1')]"
                           }
                       }
                   }
