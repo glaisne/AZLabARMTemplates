@@ -92,7 +92,7 @@
           }
       },
       {
-          "name": "VMA1-PublicIP",
+          "name": "VM-A1-PublicIP",
           "type": "Microsoft.Network/publicIPAddresses",
           "apiVersion": "2018-08-01",
           "location": "[resourceGroup().location]",
@@ -112,7 +112,7 @@
           "apiVersion": "2018-08-01",
           "location": "[resourceGroup().location]",
           "dependsOn": [
-              "[resourceId('Microsoft.Network/publicIPAddresses', 'VMA1-PublicIP')]",
+              "[resourceId('Microsoft.Network/publicIPAddresses', 'VM-A1-PublicIP')]",
               "[resourceId('Microsoft.Network/virtualNetworks', 'VNet-A')]"
           ],
           "tags": {
@@ -125,7 +125,7 @@
                       "properties": {
                           "privateIPAllocationMethod": "Dynamic",
                           "publicIPAddress": {
-                              "id": "[resourceId('Microsoft.Network/publicIPAddresses', 'VMA1-PublicIP')]"
+                              "id": "[resourceId('Microsoft.Network/publicIPAddresses', 'VM-A1-PublicIP')]"
                           },
                           "subnet": {
                               "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', 'VNet-A', 'Subnet-A1')]"
