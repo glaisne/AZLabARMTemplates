@@ -18,6 +18,10 @@
         }
     },
     "variables": {
+        "VNetAName": "VNet-A",
+        "VNetBName": "VNet-B",
+        "VNetCName": "VNet-C",
+        "VNetDName": "VNet-D",
         "VNetB_Gatewayname": "VNet-B_Gateway",
         "VNetB_GatewayPIPName": "VNet-B_GW-pip",
         "VNetD_GatewayName": "VNet-D_Gateway",
@@ -25,117 +29,151 @@
     },
     "resources": [
         {
-            "name": "VNet-A",
+            "name": "[variables('VNetAName')]",
             "type": "Microsoft.Network/virtualNetworks",
             "apiVersion": "2019-11-01",
             "location": "[resourceGroup().location]",
             "tags": {
-                "displayName": "VNet-A"
+                "displayName": "[variables('VNetAName')]"
             },
             "properties": {
                 "addressSpace": {
                     "addressPrefixes": [
                         "10.0.0.0/16"
                     ]
-                },
-                "subnets": [
-                    {
-                        "name": "Subnet-A1",
-                        "properties": {
-                            "addressPrefix": "10.0.0.0/24"
-                        }
-                    }
-                ]
+                }
             }
         },
         {
-            "name": "VNet-B",
+            "type": "Microsoft.Network/virtualNetworks/subnets",
+            "apiVersion": "2020-11-01",
+            "name": "[concat(variables('VNetAName'), '/Subnet-A1')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/virtualNetworks', variables('VNetAName'))]"
+            ],
+            "properties": {
+                "addressPrefix": "10.0.0.0/24",
+                "delegations": [],
+                "privateEndpointNetworkPolicies": "Enabled",
+                "privateLinkServiceNetworkPolicies": "Enabled"
+            }
+        },
+        {
+            "name": "[variables('VNetBName')]",
             "type": "Microsoft.Network/virtualNetworks",
             "apiVersion": "2019-11-01",
             "location": "[resourceGroup().location]",
             "tags": {
-                "displayName": "VNet-B"
+                "displayName": "[variables('VNetBName')]"
             },
             "properties": {
                 "addressSpace": {
                     "addressPrefixes": [
                         "10.1.0.0/16"
                     ]
-                },
-                "subnets": [
-                    {
-                        "name": "Subnet-B1",
-                        "properties": {
-                            "addressPrefix": "10.1.0.0/24"
-                        }
-                    },
-                    {
-                        "name": "GatewaySubnet",
-                        "properties": {
-                            "addressPrefix": "10.1.1.0/24",
-                            "delegations": [],
-                            "privateEndpointNetworkPolicies": "Enabled",
-                            "privateLinkServiceNetworkPolicies": "Enabled"
-                        }
-                    }
-                ]
+                }
             }
         },
         {
-            "name": "VNet-C",
+            "type": "Microsoft.Network/virtualNetworks/subnets",
+            "apiVersion": "2020-11-01",
+            "name": "[concat(variables('VNetBName'), '/Subnet-B1')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/virtualNetworks', variables('VNetBName'))]"
+            ],
+            "properties": {
+                "addressPrefix": "10.1.0.0/24",
+                "delegations": [],
+                "privateEndpointNetworkPolicies": "Enabled",
+                "privateLinkServiceNetworkPolicies": "Enabled"
+            }
+        },
+        {
+            "type": "Microsoft.Network/virtualNetworks/subnets",
+            "apiVersion": "2020-11-01",
+            "name": "[concat(variables('VNetBName'), '/GatewaySubnet')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/virtualNetworks', variables('VNetBName'))]"
+            ],
+            "properties": {
+                "addressPrefix": "10.1.1.0/24",
+                "delegations": [],
+                "privateEndpointNetworkPolicies": "Enabled",
+                "privateLinkServiceNetworkPolicies": "Enabled"
+            }
+        },
+        {
+            "name": "[variables('VNetCName')]",
             "type": "Microsoft.Network/virtualNetworks",
             "apiVersion": "2018-08-01",
             "location": "[resourceGroup().location]",
             "tags": {
-                "displayName": "VNet-C"
+                "displayName": "[variables('VNetCName')]"
             },
             "properties": {
                 "addressSpace": {
                     "addressPrefixes": [
                         "10.2.0.0/16"
                     ]
-                },
-                "subnets": [
-                    {
-                        "name": "Subnet-C1",
-                        "properties": {
-                            "addressPrefix": "10.2.0.0/24"
-                        }
-                    }
-                ]
+                }
             }
         },
         {
-            "name": "VNet-D",
+            "type": "Microsoft.Network/virtualNetworks/subnets",
+            "apiVersion": "2020-11-01",
+            "name": "[concat(variables('VNetCName'), '/Subnet-C1')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/virtualNetworks', variables('VNetCName'))]"
+            ],
+            "properties": {
+                "addressPrefix": "10.2.0.0/24",
+                "delegations": [],
+                "privateEndpointNetworkPolicies": "Enabled",
+                "privateLinkServiceNetworkPolicies": "Enabled"
+            }
+        },
+        {
+            "name": "[variables('VNetDName')]",
             "type": "Microsoft.Network/virtualNetworks",
             "apiVersion": "2019-11-01",
             "location": "[resourceGroup().location]",
             "tags": {
-                "displayName": "VNet-D"
+                "displayName": "[variables('VNetDName')]"
             },
             "properties": {
                 "addressSpace": {
                     "addressPrefixes": [
                         "10.3.0.0/16"
                     ]
-                },
-                "subnets": [
-                    {
-                        "name": "Subnet-D1",
-                        "properties": {
-                            "addressPrefix": "10.3.0.0/24"
-                        }
-                    },
-                    {
-                        "name": "GatewaySubnet",
-                        "properties": {
-                            "addressPrefix": "10.3.1.0/24",
-                            "delegations": [],
-                            "privateEndpointNetworkPolicies": "Enabled",
-                            "privateLinkServiceNetworkPolicies": "Enabled"
-                        }
-                    }
-                ]
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Network/virtualNetworks/subnets",
+            "apiVersion": "2020-11-01",
+            "name": "[concat(variables('VNetDName'), '/Subnet-D1')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/virtualNetworks', variables('VNetDName'))]"
+            ],
+            "properties": {
+                "addressPrefix": "10.3.0.0/24",
+                "delegations": [],
+                "privateEndpointNetworkPolicies": "Enabled",
+                "privateLinkServiceNetworkPolicies": "Enabled"
+            }
+        },
+        {
+            "type": "Microsoft.Network/virtualNetworks/subnets",
+            "apiVersion": "2020-11-01",
+            "name": "[concat(variables('VNetDName'), '/GatewaySubnet')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/virtualNetworks', variables('VNetDName'))]"
+            ],
+            "properties": {
+                "addressPrefix": "10.3.1.0/24",
+                "delegations": [],
+                "privateEndpointNetworkPolicies": "Enabled",
+                "privateLinkServiceNetworkPolicies": "Enabled"
             }
         },
         {
@@ -160,7 +198,7 @@
             "location": "[resourceGroup().location]",
             "dependsOn": [
                 "[resourceId('Microsoft.Network/publicIPAddresses', 'VM-A1-PublicIP')]",
-                "[resourceId('Microsoft.Network/virtualNetworks', 'VNet-A')]"
+                "[resourceId('Microsoft.Network/virtualNetworks', variables('VNetAName'))]"
             ],
             "tags": {
                 "displayName": "VM-A1 Network Interface"
@@ -175,7 +213,7 @@
                                 "id": "[resourceId('Microsoft.Network/publicIPAddresses', 'VM-A1-PublicIP')]"
                             },
                             "subnet": {
-                                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', 'VNet-A', 'Subnet-A1')]"
+                                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('VNetAName'), 'Subnet-A1')]"
                             }
                         }
                     }
@@ -247,7 +285,7 @@
             "location": "[resourceGroup().location]",
             "dependsOn": [
                 "[resourceId('Microsoft.Network/publicIPAddresses', 'VM-B1-PublicIP')]",
-                "[resourceId('Microsoft.Network/virtualNetworks', 'VNet-B')]"
+                "[resourceId('Microsoft.Network/virtualNetworks', variables('VNetBName'))]"
             ],
             "tags": {
                 "displayName": "VM-B1 Network Interface"
@@ -262,7 +300,7 @@
                                 "id": "[resourceId('Microsoft.Network/publicIPAddresses', 'VM-B1-PublicIP')]"
                             },
                             "subnet": {
-                                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', 'VNet-B', 'Subnet-B1')]"
+                                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('VNetBName'), 'Subnet-B1')]"
                             }
                         }
                     }
@@ -334,7 +372,7 @@
             "location": "[resourceGroup().location]",
             "dependsOn": [
                 "[resourceId('Microsoft.Network/publicIPAddresses', 'VM-C1-PublicIP')]",
-                "[resourceId('Microsoft.Network/virtualNetworks', 'VNet-C')]"
+                "[resourceId('Microsoft.Network/virtualNetworks', variables('VNetCName'))]"
             ],
             "tags": {
                 "displayName": "VM-C1 Network Interface"
@@ -349,7 +387,7 @@
                                 "id": "[resourceId('Microsoft.Network/publicIPAddresses', 'VM-C1-PublicIP')]"
                             },
                             "subnet": {
-                                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', 'VNet-C', 'Subnet-C1')]"
+                                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('VNetCName'), 'Subnet-C1')]"
                             }
                         }
                     }
@@ -406,7 +444,7 @@
             "location": "[resourceGroup().location]",
             "dependsOn": [
                 "[resourceId('Microsoft.Network/publicIPAddresses', variables('VNetB_GatewayPIPName'))]",
-                "[resourceId('Microsoft.Network/virtualNetworks/subnets', 'VNet-B', 'GatewaySubnet')]"
+                "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('VNetBName'), 'GatewaySubnet')]"
             ],
             "properties": {
                 "enablePrivateIpAddress": false,
@@ -419,7 +457,7 @@
                                 "id": "[resourceId('Microsoft.Network/publicIPAddresses', variables('VNetB_GatewayPIPName'))]"
                             },
                             "subnet": {
-                                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', 'VNet-B', 'GatewaySubnet')]"
+                                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('VNetBName'), 'GatewaySubnet')]"
                             }
                         }
                     }
@@ -479,7 +517,7 @@
             "location": "[resourceGroup().location]",
             "dependsOn": [
                 "[resourceId('Microsoft.Network/publicIPAddresses', variables('VNetD_GatewayPIPName'))]",
-                "[resourceId('Microsoft.Network/virtualNetworks/subnets', 'VNet-D', 'GatewaySubnet')]"
+                "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('VNetDName'), 'GatewaySubnet')]"
             ],
             "properties": {
                 "enablePrivateIpAddress": false,
@@ -492,7 +530,7 @@
                                 "id": "[resourceId('Microsoft.Network/publicIPAddresses', variables('VNetD_GatewayPIPName'))]"
                             },
                             "subnet": {
-                                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', 'VNet-D', 'GatewaySubnet')]"
+                                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('VNetDName'), 'GatewaySubnet')]"
                             }
                         }
                     }
