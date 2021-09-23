@@ -92,6 +92,30 @@
           }
       },
       {
+          "name": "VNet-D",
+          "type": "Microsoft.Network/virtualNetworks",
+          "apiVersion": "2019-11-01",
+          "location": "[resourceGroup().location]",
+          "tags": {
+              "displayName": "VNet-D"
+          },
+          "properties": {
+              "addressSpace": {
+                  "addressPrefixes": [
+                      "10.3.0.0/16"
+                  ]
+              },
+              "subnets": [
+                  {
+                      "name": "Subnet-D1",
+                      "properties": {
+                          "addressPrefix": "10.3.0.0/24"
+                      }
+                  }
+              ]
+          }
+      }
+      {
           "name": "VM-A1-PublicIP",
           "type": "Microsoft.Network/publicIPAddresses",
           "apiVersion": "2018-08-01",
@@ -163,7 +187,7 @@
                       "version": "latest"
                   },
                   "osDisk": {
-                      "name": "VM-A1OSDisk",
+                      "name": "VM-A1-OSDisk",
                       "caching": "ReadWrite",
                       "createOption": "FromImage"
                   }
@@ -250,7 +274,7 @@
                       "version": "latest"
                   },
                   "osDisk": {
-                      "name": "VM-B1OSDisk",
+                      "name": "VM-B1-OSDisk",
                       "caching": "ReadWrite",
                       "createOption": "FromImage"
                   }
@@ -337,7 +361,7 @@
                       "version": "latest"
                   },
                   "osDisk": {
-                      "name": "VM-C1OSDisk",
+                      "name": "VM-C1-OSDisk",
                       "caching": "ReadWrite",
                       "createOption": "FromImage"
                   }
