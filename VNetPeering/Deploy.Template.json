@@ -403,7 +403,7 @@
             "type": "Microsoft.Network/virtualNetworkGateways",
             "apiVersion": "2020-11-01",
             "name": "[variables('VNetB_Gatewayname')]",
-            "location": "eastus2",
+            "location": "[resourceGroup().location]",
             "dependsOn": [
                 "[resourceId('Microsoft.Network/publicIPAddresses', variables('VNetB_GatewayPIPName'))]",
                 "[resourceId('Microsoft.Network/virtualNetworks/subnets', 'VNet-B', 'GatewaySubnet')]"
@@ -460,7 +460,7 @@
             "type": "Microsoft.Network/publicIPAddresses",
             "apiVersion": "2020-11-01",
             "name": "[variables('VNetB_GatewayPIPName')]",
-            "location": "eastus2",
+            "location": "[resourceGroup().location]",
             "sku": {
                 "name": "Basic",
                 "tier": "Regional"
@@ -476,7 +476,7 @@
             "type": "Microsoft.Network/virtualNetworkGateways",
             "apiVersion": "2020-11-01",
             "name": "[variables('VNetD_GatewayName')]",
-            "location": "eastus2",
+            "location": "[resourceGroup().location]",
             "dependsOn": [
                 "[resourceId('Microsoft.Network/publicIPAddresses', variables('VNetD_GatewayPIPName'))]",
                 "[resourceId('Microsoft.Network/virtualNetworks/subnets', 'VNet-D', 'GatewaySubnet')]"
@@ -533,7 +533,7 @@
             "type": "Microsoft.Network/publicIPAddresses",
             "apiVersion": "2020-11-01",
             "name": "[variables('VNetD_GatewayPIPName')]",
-            "location": "eastus2",
+            "location": "[resourceGroup().location]",
             "sku": {
                 "name": "Basic",
                 "tier": "Regional"
