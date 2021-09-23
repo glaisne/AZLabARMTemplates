@@ -510,7 +510,7 @@
                 "idleTimeoutInMinutes": 4,
                 "ipTags": [],
                 "dnsSettings": {
-                    "domainNameLabel": "[toLower(concat('peeringlab-gwb-', uniqueString(subscription().subscriptionId)))]"
+                    "domainNameLabel": "[toLower(concat('peeringlab-gwb-', substring(uniqueString(subscription().subscriptionId), 0, 5)))]"
                 }
             }
         },
@@ -585,7 +585,10 @@
                 "publicIPAddressVersion": "IPv4",
                 "publicIPAllocationMethod": "Dynamic",
                 "idleTimeoutInMinutes": 4,
-                "ipTags": []
+                "ipTags": [],
+                "dnsSettings": {
+                    "domainNameLabel": "[toLower(concat('peeringlab-gwd-', substring(uniqueString(subscription().subscriptionId), 0, 5)))]"
+                }
             }
         }
     ],
