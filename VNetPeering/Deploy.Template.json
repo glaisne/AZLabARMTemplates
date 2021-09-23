@@ -457,6 +457,22 @@
             }
         },
         {
+            "type": "Microsoft.Network/publicIPAddresses",
+            "apiVersion": "2020-11-01",
+            "name": "[variables('VNetB_GatewayPIPName')]",
+            "location": "eastus2",
+            "sku": {
+                "name": "Basic",
+                "tier": "Regional"
+            },
+            "properties": {
+                "publicIPAddressVersion": "IPv4",
+                "publicIPAllocationMethod": "Dynamic",
+                "idleTimeoutInMinutes": 4,
+                "ipTags": []
+            }
+        },
+        {
             "type": "Microsoft.Network/virtualNetworkGateways",
             "apiVersion": "2020-11-01",
             "name": "[variables('VNetD_GatewayName')]",
@@ -511,6 +527,22 @@
                     ]
                 },
                 "vpnGatewayGeneration": "Generation2"
+            }
+        },
+        {
+            "type": "Microsoft.Network/publicIPAddresses",
+            "apiVersion": "2020-11-01",
+            "name": "[variables('VNetD_GatewayPIPName')]",
+            "location": "eastus2",
+            "sku": {
+                "name": "Basic",
+                "tier": "Regional"
+            },
+            "properties": {
+                "publicIPAddressVersion": "IPv4",
+                "publicIPAllocationMethod": "Dynamic",
+                "idleTimeoutInMinutes": 4,
+                "ipTags": []
             }
         }
     ],
