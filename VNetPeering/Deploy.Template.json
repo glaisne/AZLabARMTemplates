@@ -508,7 +508,10 @@
                 "publicIPAddressVersion": "IPv4",
                 "publicIPAllocationMethod": "Dynamic",
                 "idleTimeoutInMinutes": 4,
-                "ipTags": []
+                "ipTags": [],
+                "dnsSettings": {
+                    "domainNameLabel": "[concat('VNetB-gw-', uniqueString(subscription().subscriptionId))]"
+                }
             }
         },
         {
