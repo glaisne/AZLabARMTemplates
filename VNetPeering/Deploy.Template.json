@@ -444,7 +444,8 @@
             "location": "[resourceGroup().location]",
             "dependsOn": [
                 "[resourceId('Microsoft.Network/publicIPAddresses', variables('VNetB_GatewayPIPName'))]",
-                "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('VNetBName'), 'GatewaySubnet')]"
+                "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('VNetBName'), 'GatewaySubnet')]",
+                "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('VNetBName'), 'Subnet-B1')]"
             ],
             "properties": {
                 "enablePrivateIpAddress": false,
@@ -517,7 +518,8 @@
             "location": "[resourceGroup().location]",
             "dependsOn": [
                 "[resourceId('Microsoft.Network/publicIPAddresses', variables('VNetD_GatewayPIPName'))]",
-                "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('VNetDName'), 'GatewaySubnet')]"
+                "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('VNetDName'), 'GatewaySubnet')]",
+                "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('VNetDName'), 'Subnet-D1')]"
             ],
             "properties": {
                 "enablePrivateIpAddress": false,
