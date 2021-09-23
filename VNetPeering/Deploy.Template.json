@@ -510,7 +510,7 @@
                 "idleTimeoutInMinutes": 4,
                 "ipTags": [],
                 "dnsSettings": {
-                    "domainNameLabel": "[substring(concat('peeringlab-gwb-', uniqueString(subscription().subscriptionId)), 0, 60)]"
+                    "domainNameLabel": "[toLower(substring(concat('peeringlab-gwb-', uniqueString(subscription().subscriptionId)), 0, 60))]"
                 }
             }
         },
