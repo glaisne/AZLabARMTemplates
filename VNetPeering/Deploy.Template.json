@@ -187,7 +187,7 @@
             "properties": {
                 "publicIPAllocationMethod": "Dynamic",
                 "dnsSettings": {
-                    "domainNameLabel": "[toLower(concat('VM-A1', substring(uniqueString(subscription().subscriptionId), 0, 5)))]"
+                    "domainNameLabel": "[toLower(concat('VM-A1', substring(uniqueString(resourceGroup().id), 0, 5)))]"
                 }
             }
         },
@@ -198,7 +198,7 @@
             "location": "[resourceGroup().location]",
             "dependsOn": [
                 "[resourceId('Microsoft.Network/publicIPAddresses', 'VM-A1-PublicIP')]",
-                "[resourceId('Microsoft.Network/virtualNetworks', variables('VNetAName'))]"
+                "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('VNetAName'), 'Subnet-A1')]"
             ],
             "tags": {
                 "displayName": "VM-A1 Network Interface"
@@ -274,7 +274,7 @@
             "properties": {
                 "publicIPAllocationMethod": "Dynamic",
                 "dnsSettings": {
-                    "domainNameLabel": "[toLower(concat('VM-B1', substring(uniqueString(subscription().subscriptionId), 0, 5)))]"
+                    "domainNameLabel": "[toLower(concat('VM-B1', substring(uniqueString(resourceGroup().id), 0, 5)))]"
                 }
             }
         },
@@ -285,7 +285,7 @@
             "location": "[resourceGroup().location]",
             "dependsOn": [
                 "[resourceId('Microsoft.Network/publicIPAddresses', 'VM-B1-PublicIP')]",
-                "[resourceId('Microsoft.Network/virtualNetworks', variables('VNetBName'))]"
+                "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('VNetBName'), 'Subnet-B1')]"
             ],
             "tags": {
                 "displayName": "VM-B1 Network Interface"
@@ -361,7 +361,7 @@
             "properties": {
                 "publicIPAllocationMethod": "Dynamic",
                 "dnsSettings": {
-                    "domainNameLabel": "[toLower(concat('VM-C1', substring(uniqueString(subscription().subscriptionId), 0, 5)))]"
+                    "domainNameLabel": "[toLower(concat('VM-C1', substring(uniqueString(resourceGroup().id), 0, 5)))]"
                 }
             }
         },
@@ -438,13 +438,101 @@
             "resources": []
         },
         {
+            "name": "VM-D1-PublicIP",
+            "type": "Microsoft.Network/publicIPAddresses",
+            "apiVersion": "2018-08-01",
+            "location": "[resourceGroup().location]",
+            "tags": {
+                "displayName": "PublicIPAddress"
+            },
+            "properties": {
+                "publicIPAllocationMethod": "Dynamic",
+                "dnsSettings": {
+                    "domainNameLabel": "[toLower(concat('VM-D1', substring(uniqueString(resourceGroup().id), 0, 5)))]"
+                }
+            }
+        },
+        {
+            "name": "VM-D1-NetworkInterface",
+            "type": "Microsoft.Network/networkInterfaces",
+            "apiVersion": "2018-08-01",
+            "location": "[resourceGroup().location]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/publicIPAddresses', 'VM-D1-PublicIP')]",
+                "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('VNetDName'), 'Subnet-D1')]"
+            ],
+            "tags": {
+                "displayName": "VM-D1 Network Interface"
+            },
+            "properties": {
+                "ipConfigurations": [
+                    {
+                        "name": "ipConfig1",
+                        "properties": {
+                            "privateIPAllocationMethod": "Dynamic",
+                            "publicIPAddress": {
+                                "id": "[resourceId('Microsoft.Network/publicIPAddresses', 'VM-D1-PublicIP')]"
+                            },
+                            "subnet": {
+                                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('VNetDName'), 'Subnet-D1')]"
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "name": "VM-D1",
+            "type": "Microsoft.Compute/virtualMachines",
+            "apiVersion": "2017-03-30",
+            "location": "[resourceGroup().location]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/networkInterfaces', 'VM-D1-NetworkInterface')]"
+            ],
+            "tags": {
+                "displayName": "VM-D1"
+            },
+            "properties": {
+                "hardwareProfile": {
+                    "vmSize": "Standard_A2"
+                },
+                "osProfile": {
+                    "computerName": "VM-D1",
+                    "adminUsername": "[parameters('adminUsername')]",
+                    "adminPassword": "[parameters('adminPassword')]"
+                },
+                "storageProfile": {
+                    "imageReference": {
+                        "publisher": "MicrosoftWindowsServer",
+                        "offer": "WindowsServer",
+                        "sku": "2019-Datacenter",
+                        "version": "latest"
+                    },
+                    "osDisk": {
+                        "name": "VM-D1-OSDisk",
+                        "caching": "ReadWrite",
+                        "createOption": "FromImage"
+                    }
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', 'VM-D1-NetworkInterface')]"
+                        }
+                    ]
+                }
+            },
+            "resources": []
+        },
+        {
             "type": "Microsoft.Network/virtualNetworkGateways",
             "apiVersion": "2020-11-01",
             "name": "[variables('VNetB_Gatewayname')]",
             "location": "[resourceGroup().location]",
             "dependsOn": [
                 "[resourceId('Microsoft.Network/publicIPAddresses', variables('VNetB_GatewayPIPName'))]",
-                "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('VNetBName'), 'GatewaySubnet')]"
+                "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('VNetBName'), 'GatewaySubnet')]",
+                "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('VNetBName'), 'Subnet-B1')]"
             ],
             "properties": {
                 "enablePrivateIpAddress": false,
@@ -509,7 +597,7 @@
                 "idleTimeoutInMinutes": 4,
                 "ipTags": [],
                 "dnsSettings": {
-                    "domainNameLabel": "[toLower(concat('peeringlab-gwb-', substring(uniqueString(subscription().subscriptionId), 0, 5)))]"
+                    "domainNameLabel": "[toLower(concat('peeringlab-gwb-', substring(uniqueString(resourceGroup().id), 0, 5)))]"
                 }
             }
         },
@@ -520,7 +608,8 @@
             "location": "[resourceGroup().location]",
             "dependsOn": [
                 "[resourceId('Microsoft.Network/publicIPAddresses', variables('VNetD_GatewayPIPName'))]",
-                "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('VNetDName'), 'GatewaySubnet')]"
+                "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('VNetDName'), 'GatewaySubnet')]",
+                "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('VNetDName'), 'Subnet-D1')]"
             ],
             "properties": {
                 "enablePrivateIpAddress": false,
@@ -585,7 +674,7 @@
                 "idleTimeoutInMinutes": 4,
                 "ipTags": [],
                 "dnsSettings": {
-                    "domainNameLabel": "[toLower(concat('peeringlab-gwd-', substring(uniqueString(subscription().subscriptionId), 0, 5)))]"
+                    "domainNameLabel": "[toLower(concat('peeringlab-gwd-', substring(uniqueString(resourceGroup().id), 0, 5)))]"
                 }
             }
         }
