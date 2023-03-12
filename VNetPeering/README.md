@@ -3,4 +3,7 @@
 Current status: Deployable, but not tested.
 
 Image built with PowerShell module [AzViz](https://github.com/PrateekKumarSingh/AzViz)
+![Alt text](https://github.com/glaisne/azlabarmtemplates/blob/master/ARMTemplateArchitecture.png?raw=true)
 ![output](https://user-images.githubusercontent.com/3585145/134034045-51930d6d-3b02-412d-9a00-2cabe8dfb6ff.png)
+
+![Alt text](c:/Users/glais/OneDrive/Desktop/134034045-51930d6d-3b02-412d-9a00-2cabe8dfb6ff.png)
