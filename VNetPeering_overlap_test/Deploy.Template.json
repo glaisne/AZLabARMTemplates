@@ -23,7 +23,7 @@
         "VNetBName": "VNet-B",
         "VNetBSubnet1Name": "Subnet-B1",
         "VNetBSubnet2Name": "Subnet-B2",
-        "VNetCName": "VNet-C"
+        "VNetCName": "VNet-C",
         "VNetCSubnet1Name": "Subnet-C1",
         "VNetCSubnet2Name": "Subnet-C2"
     },
