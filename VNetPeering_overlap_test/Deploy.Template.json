@@ -198,7 +198,7 @@
             },
             "properties": {
                 "hardwareProfile": {
-                    "vmSize": "Standard_B1s"
+                    "vmSize": "Standard_B2ms"
                 },
                 "osProfile": {
                     "computerName": "VM-A1",
@@ -285,7 +285,7 @@
             },
             "properties": {
                 "hardwareProfile": {
-                    "vmSize": "Standard_B1s"
+                    "vmSize": "Standard_B2ms"
                 },
                 "osProfile": {
                     "computerName": "VM-B1",
@@ -372,7 +372,7 @@
             },
             "properties": {
                 "hardwareProfile": {
-                    "vmSize": "Standard_B1s"
+                    "vmSize": "Standard_B2ms"
                 },
                 "osProfile": {
                     "computerName": "VM-C1",
