@@ -113,7 +113,7 @@
             "properties": {
                 "addressSpace": {
                     "addressPrefixes": [
-                        "192.168.16.0/17"
+                        "192.168.128.0/17"
                     ]
                 }
             }
