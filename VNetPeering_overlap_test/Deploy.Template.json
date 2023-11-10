@@ -82,7 +82,7 @@
                 "[resourceId('Microsoft.Network/virtualNetworks', variables('VNetBName'))]"
             ],
             "properties": {
-                "addressPrefix": "192.168.128.0/17",
+                "addressPrefix": "192.168.16.0/24",
                 "delegations": [],
                 "privateEndpointNetworkPolicies": "Enabled",
                 "privateLinkServiceNetworkPolicies": "Enabled"
@@ -96,7 +96,7 @@
                 "[resourceId('Microsoft.Network/virtualNetworks', variables('VNetBName'))]"
             ],
             "properties": {
-                "addressPrefix": "192.168.129.0/17",
+                "addressPrefix": "192.168.32.0/24",
                 "delegations": [],
                 "privateEndpointNetworkPolicies": "Enabled",
                 "privateLinkServiceNetworkPolicies": "Enabled"
