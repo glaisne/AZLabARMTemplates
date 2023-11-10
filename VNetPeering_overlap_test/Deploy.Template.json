@@ -155,7 +155,7 @@
                                 "id": "[resourceId('Microsoft.Network/publicIPAddresses', 'VM-A1-PublicIP')]"
                             },
                             "subnet": {
-                                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('VNetASubnet1Name'))]"
+                                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('VNetAName'), variables('VNetASubnet1Name'))]"
                             }
                         }
                     }
@@ -242,7 +242,7 @@
                                 "id": "[resourceId('Microsoft.Network/publicIPAddresses', 'VM-B1-PublicIP')]"
                             },
                             "subnet": {
-                                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('VNetBSubnet1Name'))]"
+                                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('VNetBName'), variables('VNetBSubnet1Name'))]"
                             }
                         }
                     }
@@ -328,8 +328,7 @@
                             "publicIPAddress": {
                                 "id": "[resourceId('Microsoft.Network/publicIPAddresses', 'VM-C1-PublicIP')]"
                             },
-                            "subnet": {
-                                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('VNetCSubnet1Name'))]"
+                            "subnet": {"id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('VNetCName'), variables('VNetCSubnet1Name'))]"
                             }
                         }
                     }
