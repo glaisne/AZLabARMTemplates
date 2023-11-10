@@ -19,8 +19,13 @@
     },
     "variables": {
         "VNetAName": "VNet-A",
+        "VNetASubnet1Name": "Subnet-A1",
         "VNetBName": "VNet-B",
+        "VNetBSubnet1Name": "Subnet-B1",
+        "VNetBSubnet2Name": "Subnet-B2",
         "VNetCName": "VNet-C"
+        "VNetCSubnet1Name": "Subnet-C1",
+        "VNetCSubnet2Name": "Subnet-C2"
     },
     "resources": [
         {
@@ -42,7 +47,7 @@
         {
             "type": "Microsoft.Network/virtualNetworks/subnets",
             "apiVersion": "2020-11-01",
-            "name": "[concat(variables('VNetAName'), '/Subnet-A1')]",
+            "name": "[concat(variables('VNetAName'), '/', variables('VNetASubnet1Name'))]",
             "dependsOn": [
                 "[resourceId('Microsoft.Network/virtualNetworks', variables('VNetAName'))]"
             ],
@@ -72,7 +77,7 @@
         {
             "type": "Microsoft.Network/virtualNetworks/subnets",
             "apiVersion": "2020-11-01",
-            "name": "[concat(variables('VNetBName'), '/Subnet-B1')]",
+            "name": "[concat(variables('VNetBName'), '/', variables('VNetBSubnet1Name'))]",
             "dependsOn": [
                 "[resourceId('Microsoft.Network/virtualNetworks', variables('VNetBName'))]"
             ],
@@ -86,7 +91,7 @@
         {
             "type": "Microsoft.Network/virtualNetworks/subnets",
             "apiVersion": "2020-11-01",
-            "name": "[concat(variables('VNetBName'), '/GatewaySubnet')]",
+            "name": "[concat(variables('VNetBName'), '/', variables('VNetBSubnet2Name'))]",
             "dependsOn": [
                 "[resourceId('Microsoft.Network/virtualNetworks', variables('VNetBName'))]"
             ],
@@ -116,7 +121,7 @@
         {
             "type": "Microsoft.Network/virtualNetworks/subnets",
             "apiVersion": "2020-11-01",
-            "name": "[concat(variables('VNetCName'), '/Subnet-C1')]",
+            "name": "[concat(variables('VNetCName'), '/', variables('VNetCSubnet1Name'))]",
             "dependsOn": [
                 "[resourceId('Microsoft.Network/virtualNetworks', variables('VNetCName'))]"
             ],
@@ -130,7 +135,7 @@
         {
             "type": "Microsoft.Network/virtualNetworks/subnets",
             "apiVersion": "2020-11-01",
-            "name": "[concat(variables('VNetCName'), '/GatewaySubnet')]",
+            "name": "[concat(variables('VNetCName'), '/', variables('VNetCSubnet2Name'))]",
             "dependsOn": [
                 "[resourceId('Microsoft.Network/virtualNetworks', variables('VNetCName'))]"
             ],
@@ -163,7 +168,7 @@
             "location": "[resourceGroup().location]",
             "dependsOn": [
                 "[resourceId('Microsoft.Network/publicIPAddresses', 'VM-A1-PublicIP')]",
-                "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('VNetAName'), 'Subnet-A1')]"
+                "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('VNetAName'), '/', variables('VNetASubnet1Name'))]"
             ],
             "tags": {
                 "displayName": "VM-A1 Network Interface"
@@ -178,7 +183,7 @@
                                 "id": "[resourceId('Microsoft.Network/publicIPAddresses', 'VM-A1-PublicIP')]"
                             },
                             "subnet": {
-                                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('VNetAName'), 'Subnet-A1')]"
+                                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('VNetAName'), '/', variables('VNetASubnet1Name'))]"
                             }
                         }
                     }
@@ -250,7 +255,7 @@
             "location": "[resourceGroup().location]",
             "dependsOn": [
                 "[resourceId('Microsoft.Network/publicIPAddresses', 'VM-B1-PublicIP')]",
-                "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('VNetBName'), 'Subnet-B1')]"
+                "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('VNetBName'), '/', variables('VNetBSubnet1Name'))]"
             ],
             "tags": {
                 "displayName": "VM-B1 Network Interface"
@@ -265,7 +270,7 @@
                                 "id": "[resourceId('Microsoft.Network/publicIPAddresses', 'VM-B1-PublicIP')]"
                             },
                             "subnet": {
-                                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('VNetBName'), 'Subnet-B1')]"
+                                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('VNetBName'), '/', variables('VNetBSubnet1Name'))]"
                             }
                         }
                     }
@@ -352,7 +357,7 @@
                                 "id": "[resourceId('Microsoft.Network/publicIPAddresses', 'VM-C1-PublicIP')]"
                             },
                             "subnet": {
-                                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('VNetCName'), 'Subnet-C1')]"
+                                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('VNetCName'), '/', variables('VNetCSubnet1Name'))]"
                             }
                         }
                     }
