@@ -140,7 +140,7 @@
             "location": "[resourceGroup().location]",
             "dependsOn": [
                 "[resourceId('Microsoft.Network/publicIPAddresses', 'VM-A1-PublicIP')]",
-                "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('VNetASubnet1Name'))]"
+                "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('VNetAName'), variables('VNetASubnet1Name'))]"
             ],
             "tags": {
                 "displayName": "VM-A1 Network Interface"
@@ -227,7 +227,7 @@
             "location": "[resourceGroup().location]",
             "dependsOn": [
                 "[resourceId('Microsoft.Network/publicIPAddresses', 'VM-B1-PublicIP')]",
-                "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('VNetBSubnet1Name'))]"
+                "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('VNetBName'), variables('VNetBSubnet1Name'))]"
             ],
             "tags": {
                 "displayName": "VM-B1 Network Interface"
