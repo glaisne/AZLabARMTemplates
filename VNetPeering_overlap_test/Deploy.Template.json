@@ -69,7 +69,7 @@
             "properties": {
                 "addressSpace": {
                     "addressPrefixes": [
-                        "192.168.0.0/16"
+                        "192.168.0.0/17"
                     ]
                 }
             }
@@ -82,7 +82,7 @@
                 "[resourceId('Microsoft.Network/virtualNetworks', variables('VNetBName'))]"
             ],
             "properties": {
-                "addressPrefix": "192.168.16.0/24",
+                "addressPrefix": "192.168.0.0/24",
                 "delegations": [],
                 "privateEndpointNetworkPolicies": "Enabled",
                 "privateLinkServiceNetworkPolicies": "Enabled"
@@ -96,7 +96,7 @@
                 "[resourceId('Microsoft.Network/virtualNetworks', variables('VNetBName'))]"
             ],
             "properties": {
-                "addressPrefix": "192.168.32.0/24",
+                "addressPrefix": "192.168.1.0/24",
                 "delegations": [],
                 "privateEndpointNetworkPolicies": "Enabled",
                 "privateLinkServiceNetworkPolicies": "Enabled"
@@ -113,7 +113,7 @@
             "properties": {
                 "addressSpace": {
                     "addressPrefixes": [
-                        "192.168.0.0/16"
+                        "192.168.16.0/17"
                     ]
                 }
             }
@@ -126,7 +126,7 @@
                 "[resourceId('Microsoft.Network/virtualNetworks', variables('VNetCName'))]"
             ],
             "properties": {
-                "addressPrefix": "192.168.1.0/17",
+                "addressPrefix": "192.168.128.0/24",
                 "delegations": [],
                 "privateEndpointNetworkPolicies": "Enabled",
                 "privateLinkServiceNetworkPolicies": "Enabled"
@@ -140,7 +140,7 @@
                 "[resourceId('Microsoft.Network/virtualNetworks', variables('VNetCName'))]"
             ],
             "properties": {
-                "addressPrefix": "192.168.2.0/17",
+                "addressPrefix": "192.168.129.0/24",
                 "delegations": [],
                 "privateEndpointNetworkPolicies": "Enabled",
                 "privateLinkServiceNetworkPolicies": "Enabled"
