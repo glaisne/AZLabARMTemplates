@@ -19,13 +19,30 @@
     },
     "variables": {
         "VNetAName": "VNet-A",
+        "VNetAAddressPrefix": "10.0.0.0/16",
         "VNetASubnet1Name": "Subnet-A1",
+        "VNetASubnet1AddressPrefix": "10.0.0.0/24",
+
         "VNetBName": "VNet-B",
+        "VNetBAddressPrefix": "192.168.0.0/18",
         "VNetBSubnet1Name": "Subnet-B1",
+        "VNetBSubnet1AddressPrefix": "192.168.0.0/24",
         "VNetBSubnet2Name": "Subnet-B2",
+        "VNetBSubnet2AddressPrefix": "192.168.1.0/24",
+        
         "VNetCName": "VNet-C",
+        "VNetCAddressPrefix": "192.168.64.0/18",
         "VNetCSubnet1Name": "Subnet-C1",
-        "VNetCSubnet2Name": "Subnet-C2"
+        "VNetCSubnet1AddressPrefix": "192.168.64.0/24",
+        "VNetCSubnet2Name": "Subnet-C2",
+        "VNetCSubnet2AddressPrefix": "192.168.65.0/24",
+        
+        "VNetDName": "VNet-D",
+        "VNetDAddressPrefix": "192.168.128.0/17",
+        "VNetDSubnet1Name": "Subnet-D1",
+        "VNetDSubnet1AddressPrefix": "192.168.128.0/24",
+        "VNetDSubnet2Name": "Subnet-D2",
+        "VNetDSubnet2AddressPrefix": "192.168.129.0/24"
     },
     "resources": [
         {
@@ -39,7 +56,7 @@
             "properties": {
                 "addressSpace": {
                     "addressPrefixes": [
-                        "10.0.0.0/16"
+                        "[variables('VNetAAddressPrefix')]"
                     ]
                 }
             }
@@ -52,7 +69,7 @@
                 "[resourceId('Microsoft.Network/virtualNetworks', variables('VNetAName'))]"
             ],
             "properties": {
-                "addressPrefix": "10.0.0.0/24",
+                "addressPrefix": "[variables('VNetASubnet1AddressPrefix')]",
                 "delegations": [],
                 "privateEndpointNetworkPolicies": "Enabled",
                 "privateLinkServiceNetworkPolicies": "Enabled"
@@ -69,7 +86,7 @@
             "properties": {
                 "addressSpace": {
                     "addressPrefixes": [
-                        "192.168.0.0/17"
+                        "[variables('VNetBAddressPrefix')]"
                     ]
                 }
             }
@@ -82,7 +99,7 @@
                 "[resourceId('Microsoft.Network/virtualNetworks', variables('VNetBName'))]"
             ],
             "properties": {
-                "addressPrefix": "192.168.0.0/24",
+                "addressPrefix": "[variables('VNetBSubnet1AddressPrefix')]",
                 "delegations": [],
                 "privateEndpointNetworkPolicies": "Enabled",
                 "privateLinkServiceNetworkPolicies": "Enabled"
@@ -96,7 +113,7 @@
                 "[resourceId('Microsoft.Network/virtualNetworks', variables('VNetBName'))]"
             ],
             "properties": {
-                "addressPrefix": "192.168.1.0/24",
+                "addressPrefix": "[variables('VNetBSubnet2AddressPrefix')]",
                 "delegations": [],
                 "privateEndpointNetworkPolicies": "Enabled",
                 "privateLinkServiceNetworkPolicies": "Enabled"
@@ -113,7 +130,7 @@
             "properties": {
                 "addressSpace": {
                     "addressPrefixes": [
-                        "192.168.128.0/17"
+                        "[variables('VNetCAddressPrefix')]"
                     ]
                 }
             }
@@ -126,7 +143,7 @@
                 "[resourceId('Microsoft.Network/virtualNetworks', variables('VNetCName'))]"
             ],
             "properties": {
-                "addressPrefix": "192.168.128.0/24",
+                "addressPrefix": "[variables('VNetCSubnet1AddressPrefix')]",
                 "delegations": [],
                 "privateEndpointNetworkPolicies": "Enabled",
                 "privateLinkServiceNetworkPolicies": "Enabled"
@@ -140,7 +157,51 @@
                 "[resourceId('Microsoft.Network/virtualNetworks', variables('VNetCName'))]"
             ],
             "properties": {
-                "addressPrefix": "192.168.129.0/24",
+                "addressPrefix": "[variables('VNetCSubnet2AddressPrefix')]",
+                "delegations": [],
+                "privateEndpointNetworkPolicies": "Enabled",
+                "privateLinkServiceNetworkPolicies": "Enabled"
+            }
+        },
+        {
+            "name": "[variables('VNetDName')]",
+            "type": "Microsoft.Network/virtualNetworks",
+            "apiVersion": "2018-08-01",
+            "location": "[resourceGroup().location]",
+            "tags": {
+                "displayName": "[variables('VNetDName')]"
+            },
+            "properties": {
+                "addressSpace": {
+                    "addressPrefixes": [
+                        "[variables('VNetDAddressPrefix')]"
+                    ]
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Network/virtualNetworks/subnets",
+            "apiVersion": "2020-11-01",
+            "name": "[concat(variables('VNetDName'), '/', variables('VNetDSubnet1Name'))]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/virtualNetworks', variables('VNetDName'))]"
+            ],
+            "properties": {
+                "addressPrefix": "[variables('VNetDSubnet1AddressPrefix')]",
+                "delegations": [],
+                "privateEndpointNetworkPolicies": "Enabled",
+                "privateLinkServiceNetworkPolicies": "Enabled"
+            }
+        },
+        {
+            "type": "Microsoft.Network/virtualNetworks/subnets",
+            "apiVersion": "2020-11-01",
+            "name": "[concat(variables('VNetDName'), '/', variables('VNetDSubnet2Name'))]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/virtualNetworks', variables('VNetDName'))]"
+            ],
+            "properties": {
+                "addressPrefix": "[variables('VNetDSubnet2AddressPrefix')]",
                 "delegations": [],
                 "privateEndpointNetworkPolicies": "Enabled",
                 "privateLinkServiceNetworkPolicies": "Enabled"
