@@ -24,25 +24,25 @@
         "VNetASubnet1AddressPrefix": "10.0.0.0/24",
 
         "VNetBName": "VNet-B",
-        "VNetBAddressPrefix": "192.168.0.0/17",
+        "VNetBAddressPrefix": "192.168.0.0/18",
         "VNetBSubnet1Name": "Subnet-B1",
         "VNetBSubnet1AddressPrefix": "192.168.0.0/24",
         "VNetBSubnet2Name": "Subnet-B2",
         "VNetBSubnet2AddressPrefix": "192.168.1.0/24",
         
         "VNetCName": "VNet-C",
-        "VNetCAddressPrefix": "192.168.128.0/17",
+        "VNetCAddressPrefix": "192.168.64.0/18",
         "VNetCSubnet1Name": "Subnet-C1",
-        "VNetCSubnet1AddressPrefix": "192.168.128.0/24",
+        "VNetCSubnet1AddressPrefix": "192.168.64.0/24",
         "VNetCSubnet2Name": "Subnet-C2",
-        "VNetCSubnet2AddressPrefix": "192.168.129.0/24",
+        "VNetCSubnet2AddressPrefix": "192.168.65.0/24",
         
         "VNetDName": "VNet-D",
-        "VNetDAddressPrefix": "",
+        "VNetDAddressPrefix": "192.168.128.0/17",
         "VNetDSubnet1Name": "Subnet-D1",
-        "VNetDSubnet1AddressPrefix": "",
+        "VNetDSubnet1AddressPrefix": "192.168.128.0/24",
         "VNetDSubnet2Name": "Subnet-D2",
-        "VNetDSubnet2AddressPrefix": "",
+        "VNetDSubnet2AddressPrefix": "192.168.129.0/24"
     },
     "resources": [
         {
